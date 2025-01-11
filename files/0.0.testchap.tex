@@ -1,216 +1,177 @@
 \documentclass[../Main.tex]{subfiles}
 
+\usepackage{amsfonts}
+
 \begin{document}
-\chapter{Black-Scholes Model for Pricing Call and Put Options}
+\chapter{Vector Spaces}
 
-\intro{
-The Black-Scholes model is a mathematical model for pricing an options contract. The model was developed by Fischer Black, Myron Scholes, and Robert Merton in the early 1970s and is a cornerstone of modern financial theory. The Black-Scholes model provides a closed-form solution for the price of European call and put options.
-}
+\section{$\mathbb{R}^{n}$ and $\mathbb{C}^{n}$}
 
-\section{Assumptions of the Black-Scholes Model}
+We skip this section.
 
-The Black-Scholes model is based on several assumptions:
-\asum{The assumptions of  Black-Scholes model}{
-\begin{enumerate}
-    \item The stock price follows a geometric Brownian motion with constant drift and volatility.
-    \item There are no arbitrage opportunities.
-    \item The markets are frictionless, with no transaction costs or taxes.
-    \item The risk-free interest rate is constant and known.
-    \item The options can only be exercised at expiration (European options).
-\end{enumerate}
-}
+\section{Difinition of Vector Space}
 
-\section{Derivation of the Black-Scholes Equation}
-
-The derivation of the Black-Scholes equation involves the use of Ito's Lemma and the concept of a risk-neutral portfolio. Consider a stock whose price \( S(t) \) follows the stochastic differential equation:
-
-\begin{equation}
-    dS = \mu S dt + \sigma S dW
-\end{equation}
-
-where:
-\begin{itemize}
-    \item \( \mu \) is the drift rate of the stock.
-    \item \( \sigma \) is the volatility of the stock.
-    \item \( W \) is a Wiener process or Brownian motion.
-\end{itemize}
-
-\defn{Call and Put Options}{
-    \begin{itemize}
-        \item \textbf{Call Option:} Gives the holder the right (but not the obligation) to buy an asset at a predefined date and price (strike price).
-        \item \textbf{Put Option:} Gives the holder the right (but not the obligation) to sell an asset at a predefined date and price (strike price).
-    \end{itemize}
-}
-
-Under the black and scholes assumptions we the PDE of the price of an European Call :
-
-\thmp{Black and Scholes PDE }{
-\begin{equation}
-    \frac{\partial C}{\partial t} + r S \frac{\partial C}{\partial S} + \frac{1}{2} \sigma^2 S^2 \frac{\partial^2 C}{\partial S^2} = r C
-\end{equation}
+\thmp{(1B-1)}{
+Prove that $-(-v) = v$ for every $v \in V$.
 }{
-Using Ito's Lemma we get : 
+For $v \in V$, we have
 \begin{equation}
-    dC = \frac{\partial C}{\partial t} dt + \frac{\partial C}{\partial S} dS + \frac{1}{2} \frac{\partial^2 C}{\partial S^2} \sigma^2 S^2 dt
+    -(-v) = -(-v) + (-v) + v = v.
 \end{equation}
+Thus we know the additive inverse of the additive inverse of $v$ is itself.
+}
 
-Substituting \( dS \) into the equation, we get:
-
+\thmp{(1B-2)}{
+\label{2.2}
+Suppose $a \in \textbf{F}$, $v \in V$, and $av = 0$. Prove that $a = 0$ or $v = 0$.
+}{
+If $a = 0$, then we are done.\\
+If $a \neq 0$, then
 \begin{equation}
-    dC = \left( \frac{\partial C}{\partial t} + \frac{\partial C}{\partial S} \mu S + \frac{1}{2} \frac{\partial^2 C}{\partial S^2} \sigma^2 S^2 \right) dt + \frac{\partial C}{\partial S} \sigma S dW
+    v = (\frac{1}{a} \cdot a)v = \frac{1}{a} (av) = 0.
 \end{equation}
+}
 
-This can be rearranged to:
-
+\thmp{(1B-3)}{
+Suppose $v, w \in V$. Explain why there exists a unique $x \in V$ such that $v + 3x = w$.
+}{
+Let $x = \frac{w - v}{3}$, then
 \begin{equation}
-    dC = \left( \frac{\partial C}{\partial t} + \frac{\partial C}{\partial S} \mu S + \frac{1}{2} \frac{\partial^2 C}{\partial S^2} \sigma^2 S^2 \right) dt + \frac{\partial C}{\partial S} \sigma S dW
+    v + 3x = w.
 \end{equation}
-
-We form a risk-free portfolio by holding a position in the stock and an option. The change in the value of the portfolio is:
-
+This show existence. Now we show the uniqueness.
+Suppose there is an $x'$ that satisfies $v + 3x' = w$, then
 \begin{equation}
-    \Pi = -C + \Delta S
+    3(x - x') = 3x - 3x' = (w - v) - (w - v) = 0.
 \end{equation}
+By Exercise 2.\ref{2.2}, we must have $x - x' = 0$, thus $x = x'$.
+}
 
-The change in the portfolio value is:
+\thmp{(1B-4)}{
+    The empty set is not a vector space.
+    The empty set fails to satisfy only one of the requirements listed in the definition of a vector space (1.20). 
+    Which one?
+}{
+    Additive identity.
+    In an empty set $\emptyset$, there does not exist an element 0 that $v + 0 = v$ for all $v \in \emptyset$.
+}
 
-\begin{equation}
-    d\Pi = -dC + \Delta dS
-\end{equation}
+\rmk{
+    Exercise 2.4 shows that the additive identity condition can be replaced with the condition that the set is not empty(because then taking $u \in U$ and multiplying it by 0 would imply that $0 \in U$).
+}
 
-Substituting \( dC \) and \( dS \), and choosing \( \Delta = \frac{\partial C}{\partial S} \), we get:
-
-\begin{equation}
-    d\Pi = -\left( \frac{\partial C}{\partial t} + \frac{1}{2} \frac{\partial^2 C}{\partial S^2} \sigma^2 S^2 \right) dt
-\end{equation}
-
-For the portfolio to be risk-free, \( d\Pi \) must earn the risk-free rate \( r \):
-
-\begin{equation}
-    -\left( \frac{\partial C}{\partial t} + \frac{1}{2} \frac{\partial^2 C}{\partial S^2} \sigma^2 S^2 \right) = r \left( -C + \frac{\partial C}{\partial S} S \right)
-\end{equation}
-
-Simplifying, we get the Black-Scholes partial differential equation:
+\thmp{(1B-6)}{
+Let $\infty$ and $-\infty$ denote two distinct objects, neither of which is in \textbf{R}.
+Define an addition and scalar multiplication on $\textbf{R} \cup \{\infty , -\infty\}$ as you could guess from the notation.
+Specifically, the sum and product of two real numbers is as usual, and for $t \in \textbf{R}$ define
 \begin{equation*}
-    \frac{\partial C}{\partial t} + r S \frac{\partial C}{\partial S} + \frac{1}{2} \sigma^2 S^2 \frac{\partial^2 C}{\partial S^2} = r C
+    t\infty =
+    \begin{cases}
+        -\infty& if t < 0,\\
+        0& if t = 0,\\
+        \infty& if t > 0,
+    \end{cases}
+    t(-\infty) = 
+    \begin{cases}
+        \infty& if t < 0,\\
+        0& if t = 0,\\
+        -\infty& if t > 0,
+    \end{cases}
 \end{equation*}
-
-}
-
-
-
-\section{Solution to the Black-Scholes Equation for Call Options}
-
-To solve the Black-Scholes equation, we apply the boundary condition for a European call option:
-
-\begin{equation}
-    C(S, T) = \max(S_T - K, 0)
-\end{equation}
-
-where \( K \) is the strike price and \( T \) is the time to expiration.
-
-Using the method of transforming variables, we obtain the solution for a call option:
-
-\thmp{Black and Scholes formulas}{
-The price of a call under black and scholes model is : 
-
-\begin{equation}
-    C(S, t) = S \Phi(d_1) - K e^{-r(T-t)} \Phi(d_2)
-\end{equation}
-
-where:
-\begin{align}
-    d_1 &= \frac{\ln\left(\frac{S}{K}\right) + \left(r + \frac{\sigma^2}{2}\right)(T-t)}{\sigma \sqrt{T-t}} \\
-    d_2 &= d_1 - \sigma \sqrt{T-t}
-\end{align}
-
-and \( \Phi \) is the cumulative distribution function of the standard normal distribution.
-
+and
+\begin{gather*}
+    t + \infty = \infty + t = \infty + \infty = \infty,\\
+    t + (-\infty) = (-\infty) + t = (-\infty) + (-\infty) = -\infty,\\
+    \infty + (-\infty) = (-\infty) + \infty = 0.
+\end{gather*}
+With these operations of addition and scalar multiplication, is $\textbf{R} \cup \{\infty , -\infty\}$ a vector space over \textbf{R}?
+Explain.
 }{
-Left exercise for reader. 
+We can notice that
+\begin{equation}
+    \infty = (2 + (-1))\infty = 2\infty + (-1)\infty = \infty + (-\infty) = 0.
+\end{equation}
+For $\infty \neq 0$, the set doesn't follow the distributive property.
+Thus $\textbf{R} \cup \{\infty , -\infty\}$ is not a vector space.
+}
+
+\thmp{(1B-8)}{
+Suppose $V$ is a real vector space.
+\begin{itemize}
+    \item The \textit{complexification} of $V$, denoted by $V_{\textbf{C}}$, equals $V \times V$. An element of $V_{\textbf{C}}$ is an ordered pair $(u, v)$, where $u, v \in V$, but we write this as $u + iv$.
+    \item Addition on VC is defined by 
+    \begin{equation*}
+        (u_1 + iv_1) + (u_2 + iv_2) = (u_1 + u_2) + i(v_1 + v_2)
+    \end{equation*}
+    for all $u_1, v_1, u_2, v_2 \in V$.
+    \item Complex scalar multiplication on $V_{\textbf{C}}$ is defined by 
+    \begin{equation*}
+        (a + bi)(u + iv) = (au - bv) + i(av + bu)
+    \end{equation*}
+    for all $a, b \in \textbf{R}$ and all $u, v \in V$.
+\end{itemize}
+Prove that with the definitions of addition and scalar multiplication as above, $V_{\textbf{C}}$ is a complex vector space.
+}{
+Just verify the six properties of vector spaces.
+For example:
+
+\textbf{commutativity}
+\begin{equation}
+    \begin{aligned}
+        (u_1 + iv_1) + (u_2 + iv_2) =& (u_1 + u_2) + i(v_1 + v_2)\\
+        =& (u_2 + u_1) + i(v_2 + v_1)\\
+        =& (u_2 + iv_2) + (u_1 + iv_1)
+    \end{aligned}
+\end{equation}
+for all $u_1, u_2, v_1, v_2 \in V$.
+The remaining five properties are the same.
+Thus we have the complex vector space $V_{\textbf{C}}$.
+}
+
+\section{Subspaces}
+
+\thmp{(1C-5)}{
+Is $\textbf{R}^2$ a subspace of the complex vector space $\textbf{C}^2$?
+}{
+Notice that subspaces of $\textbf{C}^2$ are closed under scalar multiplication in \textbf{C}, then
+\begin{equation*}
+    i(1, 1) = (i, i) \notin \textbf{R}^2.
+\end{equation*}
+Thus $\textbf{R}^2$ is not a subspace of $\textbf{C}^2$.
+}
+
+\thmp{(1C-6)}{
+\begin{enumerate}
+    \item[(a)] Is $\{(a, b, c) \in \textbf{R}^3 : a^3 = b^3\}$ a subspace of $\textbf{R}^3$?
+    \item[(b)] Is $\{(a, b, c) \in \textbf{C}^3 : a^3 = b^3\}$ a subspace of $\textbf{C}^3$?
+\end{enumerate}
+}{
+(a)\\
+The equation $a^3 = b^3$ has the only solution $a = b$ in $\textbf{R}$, hence
+\begin{equation}
+    \{(a, b, c) \in \textbf{R}^3 : a^3 = b^3\} = \{(a, b, c) \in \textbf{R}^3 : a = b\}
+\end{equation}
+is obviously a subspace of $\textbf{R}^3$.\\
+(b)\\
+In $\textbf{C}^3$, we have
+\begin{equation}
+    \Bigg(1, \frac{-1 + \sqrt{3}i}{2}, 0\Bigg) \in \{(a, b, c) \in \textbf{C}^3 : a^3 = b^3\}
+\end{equation}
+and
+\begin{equation}
+    \Bigg(1, \frac{-1 - \sqrt{3}i}{2}, 0\Bigg) \in \{(a, b, c) \in \textbf{C}^3 : a^3 = b^3\}.
+\end{equation}
+However,
+\begin{equation*}
+    \Bigg(1, \frac{-1 + \sqrt{3}i}{2}, 0\Bigg) + \Bigg(1, \frac{-1 - \sqrt{3}i}{2}, 0\Bigg) = (2, -1, 0) \notin \{(a, b, c) \in \textbf{C}^3 : a^3 = b^3\}.
+\end{equation*}
+Hence $\{(a, b, c) \in \textbf{C}^3 : a^3 = b^3\}$ is not a vector space.
 }
 
 
-\section{Solution to the Black-Scholes Equation for Put Options}
-
-Similarly, for a European put option, the boundary condition is:
-
-\begin{equation}
-    P(S, T) = \max(K - S_T, 0)
-\end{equation}
-
-The solution for a put option is given by:
-
-\begin{equation}
-    P(S, t) = K e^{-r(T-t)} \Phi(-d_2) - S \Phi(-d_1)
-\end{equation}
-
-\section{Greeks in the Black-Scholes Model}
-
-The Greeks are sensitivities of the option price to various factors:
-
-\subsection{Delta}
-
-Delta measures the sensitivity of the option price to changes in the underlying asset price:
-
-\begin{equation}
-    \Delta_C = \frac{\partial C}{\partial S} = \Phi(d_1)
-\end{equation}
-
-\begin{equation}
-    \Delta_P = \frac{\partial P}{\partial S} = \Phi(d_1) - 1
-\end{equation}
-
-\subsection{Gamma}
-
-Gamma measures the sensitivity of delta to changes in the underlying asset price:
-
-\begin{equation}
-    \Gamma = \frac{\partial^2 C}{\partial S^2} = \frac{\Phi'(d_1)}{S \sigma \sqrt{T - t}}
-\end{equation}
-
-\subsection{Theta}
-
-Theta measures the sensitivity of the option price to the passage of time:
-
-\begin{equation}
-    \Theta_C = -\frac{S \Phi'(d_1) \sigma}{2 \sqrt{T - t}} - r K e^{-r(T - t)} \Phi(d_2)
-\end{equation}
-
-\begin{equation}
-    \Theta_P = -\frac{S \Phi'(d_1) \sigma}{2 \sqrt{T - t}} + r K e^{-r(T - t)} \Phi(-d_2)
-\end{equation}
-
-\subsection{Vega}
-
-Vega measures the sensitivity of the option price to changes in volatility:
-
-\begin{equation}
-    \nu = \frac{\partial C}{\partial \sigma} = \frac{\partial P}{\partial \sigma} = S \sqrt{T - t} \Phi'(d_1)
-\end{equation}
-
-\subsection{Rho}
-
-Rho measures the sensitivity of the option price to changes in the risk-free interest rate:
-
-\begin{equation}
-    \rho_C = K (T - t) e^{-r(T - t)} \Phi(d_2)
-\end{equation}
-
-\begin{equation}
-    \rho_P = -K (T - t) e^{-r(T - t)} \Phi(-d_2)
-\end{equation}
 
 
-\section{Numerical Examples}
-
-\exm{Call Option Pricing}{
-    Consider a European call option with \( S = 100 \), \( K = 100 \), \( r = 0.05 \), \( \sigma = 0.2 \), and \( T = 1 \) year. Using the Black-Scholes formula, we calculate the call option price.
-}
 
 
-\section{Conclusion}
-
-The Black-Scholes model is a fundamental tool in financial markets for pricing options. It provides insights into the behavior of option prices and the factors that affect them. Understanding the model and its derivations is crucial for anyone involved in finance.
 
 \end{document}
